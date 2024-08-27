@@ -7,6 +7,7 @@ import (
 	"github.com/AnhCaooo/go-web-server-template-generator/template/internal/api/handlers"
 	"github.com/AnhCaooo/go-web-server-template-generator/template/internal/api/middleware"
 	"github.com/AnhCaooo/go-web-server-template-generator/template/internal/api/routes"
+	"github.com/AnhCaooo/go-web-server-template-generator/template/internal/cache"
 	"github.com/AnhCaooo/go-web-server-template-generator/template/internal/logger"
 	"github.com/gorilla/mux"
 )
@@ -14,6 +15,9 @@ import (
 func main() {
 	// Initialize logger
 	logger.InitLogger()
+
+	// Initialize cache
+	cache.NewCache()
 
 	// Initial new router
 	r := mux.NewRouter()
