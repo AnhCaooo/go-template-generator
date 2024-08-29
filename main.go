@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 )
 
 func main() {
@@ -21,15 +22,26 @@ func main() {
 		log.Fatal(err)
 	}
 	// STEP 3: do git init
-
-	// STEP 4: ask for project path (GitHub) in order to initialize Go module. Good to provide some examples.
-	projectPath, err := askProjectPath()
+	err = doGitInit()
 	if err != nil {
 		log.Fatal(err)
 	}
-	// STEP 5: do copy all files from template and paste to current working directory
-	// STEP 6: fix all errors that happens after copying
-	// STEP 7: do git commit and push to (GitHub)
+
+	// STEP 4: ask for project path (GitHub) in order to initialize Go module. Good to provide some examples.
+	goPath, err := askGoPath()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// STEP 5: initialize go module
+	err = initializeGoModule(goPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// STEP 6: do copy all files from template and paste to current working directory
+	// STEP 7: fix all errors that happens after copying
+	// STEP 8: do git commit and push to (GitHub)
 
 }
 
@@ -40,7 +52,7 @@ func askProjectName() (name string, err error) {
 	return name, nil
 }
 
-func askProjectPath() (path string, err error) {
+func askGoPath() (path string, err error) {
 	fmt.Println("Enter your project path:")
 	fmt.Scanln(&path)
 	// validate project path
@@ -65,9 +77,32 @@ func createProjectThenNavigate(name string) (err error) {
 	// Navigate to the newly created folder
 	err = os.Chdir(parentDir + "/" + name)
 	if err != nil {
-		return fmt.Errorf("error navigating to new folder: %w", err)
+		return fmt.Errorf("error navigating to new folder: %s", err.Error())
 	}
 
 	fmt.Printf("New project '%s' created and navigated to in '%s'\n", name, parentDir)
+	return nil
+}
+
+func initializeGoModule(goPath string) (err error) {
+	cmd := exec.Command("go", "mod", "init", goPath)
+
+	err = cmd.Run()
+	if err != nil {
+		return fmt.Errorf("error initializing go module: %s", err.Error())
+	}
+	fmt.Println("Go module initialized successfully!")
+	return nil
+}
+
+func doGitInit() (err error) {
+	cmd := exec.Command("git", "init")
+
+	err = cmd.Run()
+	if err != nil {
+		return fmt.Errorf("error initializing git repo: %s", err.Error())
+	}
+
+	fmt.Println("Git repository initialized successfully!")
 	return nil
 }
