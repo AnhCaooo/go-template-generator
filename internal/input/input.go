@@ -1,15 +1,17 @@
-package main
+package input
 
 import "fmt"
 
-func askProjectName() (name string, err error) {
+// ask for project name and collect value
+func AskProjectName() (name string, err error) {
 	fmt.Println("Enter your desired name:")
 	fmt.Scanln(&name)
 	// validate desired name
 	return name, nil
 }
 
-func askGoPath() (path string, err error) {
+// ask for Go path and collect value
+func AskGoPath() (path string, err error) {
 	fmt.Println("Enter your project path:")
 	fmt.Scanln(&path)
 	// validate project path

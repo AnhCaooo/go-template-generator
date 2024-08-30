@@ -1,4 +1,4 @@
-package main
+package actions
 
 import (
 	"fmt"
@@ -6,7 +6,8 @@ import (
 	"os/exec"
 )
 
-func createProjectThenNavigate(name string) (err error) {
+// create a new project with given name in one upper level of current directory then navigate to it
+func CreateProjectThenNavigate(name string) (err error) {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("failed to get current directory. Error: %s", err.Error())
@@ -31,7 +32,8 @@ func createProjectThenNavigate(name string) (err error) {
 	return nil
 }
 
-func initializeGoModule(goPath string) (err error) {
+// initialize Go module with given project path
+func InitializeGoModule(goPath string) (err error) {
 	cmd := exec.Command("go", "mod", "init", goPath)
 
 	err = cmd.Run()
