@@ -17,7 +17,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// STEP 2: navigate to one upper level and create folder, then navigate to.
+	// STEP 2: initial project at one upper level then navigate to.
 	err = actions.CreateProjectThenNavigate(projectName)
 	if err != nil {
 		log.Fatal(err)
@@ -40,8 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// STEP 6: do copy all files from template and paste to current working directory
-	// STEP 7: fix all errors that happens after copying
+	// STEP 6: fix all errors that happens after copying
 	// STEP 8: do git commit and push to (GitHub)
 
 }

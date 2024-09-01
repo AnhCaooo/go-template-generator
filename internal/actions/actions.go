@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+
+	cp "github.com/otiai10/copy"
 )
 
 // create a new project with given name in one upper level of current directory then navigate to it
@@ -13,17 +15,25 @@ func CreateProjectThenNavigate(name string) (err error) {
 		return fmt.Errorf("failed to get current directory. Error: %s", err.Error())
 	}
 
-	// Navigate one level up
+	// template directory
+	templateDir := currentDir + "/template"
+	// get directory one level up
 	parentDir := currentDir + "/.."
 
 	// Create the new folder
-	err = os.Mkdir(parentDir+"/"+name, os.ModePerm)
+	targetDir := parentDir + "/" + name
+	err = os.Mkdir(targetDir, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("error while creating folder: %s", err.Error())
 	}
 
+	err = cp.Copy(templateDir, targetDir)
+	if err != nil {
+		return fmt.Errorf("error while copying: %s", err.Error())
+	}
+
 	// Navigate to the newly created folder
-	err = os.Chdir(parentDir + "/" + name)
+	err = os.Chdir(targetDir)
 	if err != nil {
 		return fmt.Errorf("error navigating to new folder: %s", err.Error())
 	}
@@ -33,13 +43,23 @@ func CreateProjectThenNavigate(name string) (err error) {
 }
 
 // initialize Go module with given project path
-func InitializeGoModule(goPath string) (err error) {
-	cmd := exec.Command("go", "mod", "init", goPath)
+func InitializeGoModule(goModulePath string) (err error) {
+	// Check if module is already initialized
+	if _, err := exec.Command("go", "mod", "init").CombinedOutput(); err == nil {
+		fmt.Println("Module is already initialized.")
+		return nil
+	}
+
+	// Create a new module
+	cmd := exec.Command("go", "mod", "init", goModulePath)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 
 	err = cmd.Run()
 	if err != nil {
-		return fmt.Errorf("error initializing go module: %s", err.Error())
+		return fmt.Errorf("failed to initialize module: %w", err)
 	}
-	fmt.Println("Go module initialized successfully!")
+
+	fmt.Printf("Module '%s' initialized.\n", goModulePath)
 	return nil
 }
