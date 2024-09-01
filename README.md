@@ -9,17 +9,16 @@ This CLI helps generate a web server based on my preference template which I hav
 This CLI tool will not only generate a web server, it will also provide a default Dockerfile configuration which you could use right way to build your own image. 
 
 
+## Quick start 
+Clone the project. Navigate to the project and run the following command
+```bash
+go run main.go
+```
+This will ask for where your project is located and your Go Module path.
+
 ### Tech stacks 
 - Web server framework: [gorilla/mux](https://github.com/gorilla/mux)
 - Logging framework: [zap](https://github.com/uber-go/zap)
-
-
-### Project Layout
-Will be available soon. 
-
-
-## Quick start 
-Will be available soon. 
 
 
 ## Changelog
