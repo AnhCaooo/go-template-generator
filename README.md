@@ -23,3 +23,4 @@ Will be available soon.
 
 
 ## Changelog
+- 1.0.0 - The first version. All basic features are working. However, currently, after the project is initialized, you, the consumer have to manually remove all 'template'import dependencies. In next version, maybe this will be handled automatically
