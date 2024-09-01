@@ -12,13 +12,13 @@ import (
 
 func main() {
 	// STEP 1: ask for which path the new repo will be located. If not given, then give default name 'go-web-server' and create it in current working directory.
-	projectName, err := input.AskProjectName()
+	projectPath, err := input.AskProjectName()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// STEP 2: initial project at one upper level then navigate to.
-	err = actions.CreateProjectThenNavigate(projectName)
+	err = actions.CreateProjectThenNavigate(projectPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,6 +41,5 @@ func main() {
 	}
 
 	// STEP 6: fix all errors that happens after copying
-	// STEP 8: do git commit and push to (GitHub)
 
 }

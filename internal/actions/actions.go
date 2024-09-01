@@ -8,8 +8,8 @@ import (
 	cp "github.com/otiai10/copy"
 )
 
-// create a new project with given name in one upper level of current directory then navigate to it
-func CreateProjectThenNavigate(name string) (err error) {
+// create a new project with given path in one upper level of current directory then navigate to it
+func CreateProjectThenNavigate(desiredPath string) (err error) {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("failed to get current directory. Error: %s", err.Error())
@@ -21,7 +21,7 @@ func CreateProjectThenNavigate(name string) (err error) {
 	parentDir := currentDir + "/.."
 
 	// Create the new folder
-	targetDir := parentDir + "/" + name
+	targetDir := parentDir + "/" + desiredPath
 	err = os.Mkdir(targetDir, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("error while creating folder: %s", err.Error())
@@ -38,7 +38,7 @@ func CreateProjectThenNavigate(name string) (err error) {
 		return fmt.Errorf("error navigating to new folder: %s", err.Error())
 	}
 
-	fmt.Printf("New project '%s' created and navigated to in '%s'\n", name, parentDir)
+	fmt.Printf("New project '%s' created and navigated to in '%s'\n", desiredPath, parentDir)
 	return nil
 }
 
